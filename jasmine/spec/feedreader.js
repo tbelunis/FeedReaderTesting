@@ -100,22 +100,26 @@ $(function() {
     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
 
-        var title = $('.header-title').html();
+        var title = $('.feed').html();
+        var oldContent;
 
         beforeEach(function(done) {
-            loadFeed(0, done);
-        });
-
-        afterEach(function(done) {
-            loadFeed(1, done);
+            loadFeed(0, function () {
+                oldContent = $('.feed').html();
+                console.log("before = " + oldContent);
+                done();
+            })
         });
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        it('changes content when a new feed is loaded', function() {
-            expect($('.header-title').html()).not.toBe(title);
+        it('changes content when a new feed is loaded', function(done) {
+            loadFeed(1, function() {
+                expect($('.feed').html() !== oldContent).toBeTruthy();
+                done();
+            });
         });
 
     });
